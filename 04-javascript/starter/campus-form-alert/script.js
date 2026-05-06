@@ -1,31 +1,23 @@
-const clubForm = document.querySelector("#club-form");
-const studentNameInput = document.querySelector("#student-name");
-const studentIdInput = document.querySelector("#student-id");
-const studentEmailInput = document.querySelector("#student-email");
-const clubNameInput = document.querySelector("#club-name");
-const partSelect = document.querySelector("#part");
-const reasonInput = document.querySelector("#reason");
+const form = document.getElementById("club-form");
 
-function createAlertMessage() {
-  // TODO:
-  // 각 입력창의 .value를 읽어서 변수에 저장해보세요.
+form.addEventListener("submit", function (event) {
+  event.preventDefault();
 
-  return `지원서가 제출되었습니다.
+  const studentName = document.getElementById("student-name").value;
+  const studentId = document.getElementById("student-id").value;
+  const studentEmail = document.getElementById("student-email").value;
+  const clubName = document.getElementById("club-name").value;
+  const part = document.getElementById("part").value;
+  const reason = document.getElementById("reason").value;
 
-이름: 
-학번: 
-이메일: 
-관심 동아리: 
-지원 분야: 
-지원 이유: `;
-}
+  const message =
+    "동아리에 지원해 주셔서 감사합니다!!!\n\n" +
+    "이름: " + studentName + "\n" +
+    "학번: " + studentId + "\n" +
+    "이메일: " + studentEmail + "\n" +
+    "관심 동아리: " + clubName + "\n" +
+    "지원 분야: " + part + "\n" +
+    "지원 이유: " + reason;
 
-clubForm.addEventListener("submit", function (event) {
-  // TODO:
-  // 새로고침이 되지 않도록 막아보세요.
-
-  const message = createAlertMessage();
-
-  // TODO:
-  // message를 alert로 띄워보세요.
+  alert(message);
 });
