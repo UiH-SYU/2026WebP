@@ -14,6 +14,7 @@ function App() {
   return (
     <main style={styles.page}>
       <ProfileCard name="김하늘" major="컴퓨터공학" hobby="영화 감상" />
+      <ProfileCard name="정의현" major="반도체공학" hobby="바이브 코딩 게임 개발" />
     </main>
   );
 }
