@@ -1,0 +1,151 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Pretendard", "Noto Sans KR", sans-serif;
+  background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+  color: #0f172a;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.page {
+  min-height: 100vh;
+  padding: 40px 20px 60px;
+}
+
+.container {
+  width: min(760px, 100%);
+  margin: 0 auto;
+}
+
+.hero {
+  margin-bottom: 24px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: #2563eb;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.hero h1 {
+  margin: 0 0 12px;
+  font-size: 40px;
+}
+
+.hero-text {
+  margin: 0;
+  color: #475569;
+  line-height: 1.6;
+}
+
+.card {
+  background: white;
+  border-radius: 24px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+}
+
+.card h2 {
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.description {
+  margin-top: 0;
+  color: #64748b;
+}
+
+.count-box {
+  width: 100%;
+  padding: 28px 20px;
+  margin: 20px 0;
+  border-radius: 20px;
+  background: #eff6ff;
+  text-align: center;
+  font-size: 48px;
+  font-weight: 700;
+  color: #1d4ed8;
+}
+
+.button-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.button-row button,
+.todo-form button,
+.delete-button {
+  border: none;
+  border-radius: 14px;
+  padding: 12px 18px;
+  background: #2563eb;
+  color: white;
+}
+
+.light-button {
+  background: #94a3b8;
+}
+
+.todo-form {
+  display: flex;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.todo-form input {
+  flex: 1;
+  border: 1px solid #cbd5e1;
+  border-radius: 14px;
+  padding: 12px 14px;
+  background: white;
+}
+
+.todo-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: #f8fafc;
+}
+
+.delete-button {
+  background: #dc2626;
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .hero h1 {
+    font-size: 32px;
+  }
+
+  .todo-form,
+  .button-row,
+  .todo-item {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
