@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>마녀의 냉장고</title>
+
+    <link rel="stylesheet" href="./fridge.css" />
+
+    <!-- Supabase JS 라이브러리 -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </head>
+
+  <body>
+    <main class="fridge-page">
+      <a href="./index.html" class="back-link">← 오두막으로</a>
+
+      <section class="fridge-stage">
+        <!-- 왼쪽 문: 음식 추가/수정 폼 -->
+        <section class="panel left-door-panel">
+          <h2>음식 등록</h2>
+
+          <form id="food-form" class="food-form">
+            <div class="input-box">
+              <label for="food-name">음식 이름</label>
+              <input
+                id="food-name"
+                type="text"
+                placeholder="예: 우유"
+                required
+              />
+            </div>
+
+            <div class="input-box">
+              <label for="food-category">카테고리</label>
+              <select id="food-category" required>
+                <option value="">선택</option>
+                <option value="채소">채소</option>
+                <option value="과일">과일</option>
+                <option value="고기">고기</option>
+                <option value="음료">음료</option>
+                <option value="냉동식품">냉동식품</option>
+                <option value="기타">기타</option>
+              </select>
+            </div>
+
+            <div class="input-box">
+              <label for="food-quantity">수량</label>
+              <input
+                id="food-quantity"
+                type="number"
+                min="1"
+                value="1"
+                required
+              />
+            </div>
+
+            <div class="input-box">
+              <label for="food-expire-date">유통기한</label>
+              <input id="food-expire-date" type="date" required />
+            </div>
+
+            <div class="input-box">
+              <label for="food-memo">메모</label>
+              <textarea
+                id="food-memo"
+                placeholder="예: 냉장보관 필수"
+              ></textarea>
+            </div>
+
+            <div class="button-box">
+              <button id="submit-button" type="submit">음식 추가</button>
+              <button id="cancel-button" type="button" class="cancel-button">
+                수정 취소
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <!-- 가운데 선반: 전체 음식 리스트 -->
+        <section class="panel center-shelf-panel">
+          <div class="center-header">
+            <div>
+              <h2>냉장고 선반</h2>
+              <p>추가한 음식 목록</p>
+            </div>
+            <span id="food-count">0개</span>
+          </div>
+
+          <input
+            id="search-input"
+            class="search-input"
+            type="text"
+            placeholder="음식 이름 / 메모 검색"
+          />
+
+          <ul id="food-list" class="shelf-food-list"></ul>
+        </section>
+
+        <!-- 오른쪽 문: 유통기한 임박 음식 -->
+        <section class="panel right-door-panel">
+          <h2>임박 음식</h2>
+          <p class="warning-desc">오늘까지 / D-3 이하 / 만료 음식</p>
+
+          <ul id="warning-list" class="warning-list"></ul>
+        </section>
+      </section>
+    </main>
+
+    <script src="./fridge.js"></script>
+  </body>
+</html>

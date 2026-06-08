@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Little Witch's Cabin</title>
+
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+  <div class="main-container">
+
+    <!-- 상단 제목 박스 -->
+    <div class="title-box">
+      <h1>Little Witch's Cabin</h1>
+      <p>마법 오브젝트를 클릭해서 생활 관리 기능을 사용하세요.</p>
+    </div>
+
+    <!-- 냉장고 -->
+    <a href="fridge.html" class="fridge-area">
+      <img src="images/fridge.png" alt="냉장고" class="fridge-img" />
+      <div class="object-label">냉장고</div>
+    </a>
+
+    <!-- 마녀 -->
+    <div class="witch-area">
+      <div class="speech-bubble" id="speechBubble">
+        안녕! 나는 이 오두막을 지키는 작은 마녀야.
+      </div>
+
+      <button type="button" class="witch-button" id="witchButton">
+        <img src="images/witch.png" alt="작은 마녀" class="witch-img" />
+      </button>
+    </div>
+
+    <!-- 카드 -->
+    <button type="button" class="card-area">
+      카드
+    </button>
+
+  </div>
+
+  <script src="index.js"></script>
+</body>
+</html>

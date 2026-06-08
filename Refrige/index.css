@@ -1,0 +1,321 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  overflow: hidden;
+  font-family: "Pretendard", "Noto Sans KR", Arial, sans-serif;
+}
+
+/* 전체 메인 화면 */
+.main-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+
+  background-image: url("images/cabin.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* 상단 제목 박스 */
+.title-box {
+  position: absolute;
+  top: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 520px;
+  padding: 24px 32px;
+
+  text-align: center;
+
+  background: rgba(45, 25, 55, 0.88);
+  border: 2px solid rgba(218, 174, 101, 0.8);
+  border-radius: 24px;
+
+  box-shadow: 0 0 20px rgba(255, 222, 150, 0.25);
+
+  z-index: 30;
+}
+
+.title-box h1 {
+  color: #fff4d2;
+  font-size: 42px;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.title-box p {
+  color: #ead6b6;
+  font-size: 15px;
+}
+
+/* 냉장고 영역 */
+.fridge-area {
+  position: absolute;
+  left: 12%;
+  bottom: 8%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-decoration: none;
+  cursor: pointer;
+
+  z-index: 10;
+}
+
+.fridge-img {
+  width: 330px;
+  height: auto;
+  display: block;
+
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.fridge-area:hover .fridge-img {
+  transform: translateY(-8px) scale(1.03);
+  filter: drop-shadow(0 0 18px rgba(255, 230, 160, 0.7));
+}
+
+/* 냉장고 / 카드 버튼 라벨 */
+.object-label,
+.card-area {
+  padding: 10px 22px;
+
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+
+  background: rgba(55, 32, 80, 0.78);
+  border: 2px solid rgba(255, 228, 160, 0.9);
+  border-radius: 999px;
+
+  box-shadow: 0 4px 10px rgba(25, 10, 35, 0.25);
+}
+
+.object-label {
+  margin-top: -4px;
+}
+
+/* 카드 */
+.card-area {
+  position: absolute;
+  right: 15%;
+  bottom: 12%;
+
+  cursor: pointer;
+  z-index: 10;
+
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.card-area:hover {
+  transform: translateY(-5px);
+  background: rgba(90, 55, 125, 0.9);
+}
+
+/* 마녀 전체 영역 */
+.witch-area {
+  position: absolute;
+
+  /*
+    마녀 위치 조절하는 핵심 부분
+    left: 50% → 화면 정중앙
+    bottom: 5% → 아래에서 5% 위
+  */
+  left: 50%;
+  bottom: 5%;
+  transform: translateX(-50%);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  z-index: 25;
+}
+
+/* 말풍선 */
+.speech-bubble {
+  position: relative;
+
+  min-width: 280px;
+  max-width: 380px;
+  min-height: 58px;
+
+  margin-bottom: 18px;
+  padding: 15px 20px;
+
+  color: #3b2445;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.45;
+  text-align: center;
+
+  background: rgba(255, 244, 215, 0.96);
+  border: 3px solid #7b4b9c;
+  border-radius: 22px;
+
+  box-shadow: 0 7px 18px rgba(30, 12, 45, 0.35);
+
+  opacity: 1;
+  transform: translateY(0);
+
+  transition: opacity 0.2s ease, transform 0.2s ease;
+
+  z-index: 26;
+}
+
+/* 말풍선 꼬리 */
+.speech-bubble::after {
+  content: "";
+  position: absolute;
+
+  left: 50%;
+  bottom: -15px;
+  transform: translateX(-50%);
+
+  width: 0;
+  height: 0;
+
+  border-left: 13px solid transparent;
+  border-right: 13px solid transparent;
+  border-top: 15px solid rgba(255, 244, 215, 0.96);
+}
+
+/* 대사 바뀔 때 잠깐 사라지는 효과 */
+.speech-bubble.hide {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+/* 마녀 버튼 */
+.witch-button {
+  border: none;
+  background: transparent;
+  padding: 0;
+
+  cursor: pointer;
+
+  animation: witchFloat 2.8s ease-in-out infinite;
+}
+
+/* 마녀 이미지 */
+.witch-img {
+  width: 270px;
+  height: auto;
+  display: block;
+
+  filter: drop-shadow(0 12px 14px rgba(20, 8, 30, 0.48));
+
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.witch-button:hover .witch-img {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 20px rgba(255, 225, 150, 0.8));
+}
+
+.witch-button:active .witch-img {
+  transform: scale(0.95);
+}
+
+/* 마녀 둥실둥실 */
+@keyframes witchFloat {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* 화면 작아졌을 때 */
+@media (max-width: 1200px) {
+  .title-box {
+    width: 460px;
+    padding: 20px 26px;
+  }
+
+  .title-box h1 {
+    font-size: 34px;
+  }
+
+  .fridge-area {
+    left: 7%;
+  }
+
+  .fridge-img {
+    width: 260px;
+  }
+
+  .witch-img {
+    width: 230px;
+  }
+
+  .speech-bubble {
+    min-width: 250px;
+    max-width: 330px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 800px) {
+  .title-box {
+    top: 2%;
+    width: 86%;
+  }
+
+  .title-box h1 {
+    font-size: 27px;
+  }
+
+  .title-box p {
+    font-size: 13px;
+  }
+
+  .fridge-area {
+    left: 3%;
+    bottom: 7%;
+  }
+
+  .fridge-img {
+    width: 180px;
+  }
+
+  .object-label,
+  .card-area {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+
+  .witch-area {
+    bottom: 5%;
+  }
+
+  .witch-img {
+    width: 170px;
+  }
+
+  .speech-bubble {
+    min-width: 210px;
+    max-width: 260px;
+    font-size: 14px;
+    padding: 12px 14px;
+  }
+
+  .card-area {
+    right: 5%;
+    bottom: 9%;
+  }
+}

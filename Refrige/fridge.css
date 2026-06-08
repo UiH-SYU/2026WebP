@@ -1,0 +1,453 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Noto Sans KR", Arial, sans-serif;
+  background: radial-gradient(circle at top, #f8efff, #26162f 78%);
+  color: #2d2435;
+  overflow: hidden;
+}
+
+/* 전체 페이지 */
+.fridge-page {
+  width: 100vw;
+  height: 100vh;
+  padding: 12px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* 뒤로가기 */
+.back-link {
+  position: absolute;
+  top: 16px;
+  left: 20px;
+  z-index: 20;
+
+  padding: 10px 16px;
+  border-radius: 999px;
+
+  color: #fff7df;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 15px;
+
+  background-color: rgba(60, 36, 76, 0.9);
+  border: 1px solid rgba(255, 218, 130, 0.55);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.24);
+}
+
+/* 열린 냉장고 배경 */
+.fridge-stage {
+  position: relative;
+
+  width: min(95vw, calc((100vh - 24px) * 1.3333), 1360px);
+  aspect-ratio: 4 / 3;
+
+  background-image: url("./images/inside.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* 공통 패널 */
+.panel {
+  position: absolute;
+  padding: 12px;
+  border-radius: 18px;
+
+  background-color: rgba(255, 248, 255, 0.64);
+  border: 2px solid rgba(120, 67, 170, 0.22);
+  box-shadow: 0 8px 22px rgba(78, 31, 120, 0.12);
+  backdrop-filter: blur(2px);
+
+  overflow: hidden;
+}
+
+/* 왼쪽 문 연보라 영역 안쪽 */
+.left-door-panel {
+  left: 6.1%;
+  top: 17.4%;
+  width: 16.8%;
+  height: 67.8%;
+  overflow-y: auto;
+}
+
+/* 가운데 선반 영역 */
+.center-shelf-panel {
+  left: 32.3%;
+  top: 13.8%;
+  width: 36.1%;
+  height: 72.5%;
+
+  /* 가운데는 큰 박스 제거해서 선반 라인 안 깨지게 함 */
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  padding: 10px;
+}
+
+/* 오른쪽 문 연보라 영역 안쪽 */
+.right-door-panel {
+  right: 6.1%;
+  top: 17.4%;
+  width: 16.8%;
+  height: 67.8%;
+  overflow-y: auto;
+}
+
+.panel h2 {
+  margin: 0 0 8px;
+  color: #4b2474;
+  font-size: clamp(16px, 1.25vw, 21px);
+}
+
+.panel p {
+  margin: 0;
+  color: #735f82;
+  font-size: clamp(10px, 0.82vw, 13px);
+}
+
+/* 폼 */
+.food-form {
+  display: grid;
+  gap: 7px;
+}
+
+.input-box {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.input-box label {
+  font-size: clamp(10px, 0.8vw, 12px);
+  font-weight: bold;
+  color: #4b2474;
+}
+
+.input-box input,
+.input-box select,
+.input-box textarea,
+.search-input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #c9aee5;
+  border-radius: 10px;
+  font-size: clamp(11px, 0.84vw, 13px);
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.92);
+}
+
+.input-box input:focus,
+.input-box select:focus,
+.input-box textarea:focus,
+.search-input:focus {
+  border-color: #7b45b0;
+}
+
+.input-box textarea {
+  min-height: 52px;
+  resize: vertical;
+}
+
+.button-box {
+  display: grid;
+  gap: 7px;
+  margin-top: 4px;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-family: inherit;
+  font-weight: bold;
+  font-size: clamp(11px, 0.84vw, 13px);
+}
+
+#submit-button {
+  background-color: #7b45b0;
+  color: white;
+}
+
+#submit-button:hover {
+  background-color: #63308f;
+}
+
+.cancel-button {
+  display: none;
+  background-color: #eadff5;
+  color: #63308f;
+}
+
+/* 가운데 헤더 */
+.center-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+
+  margin-bottom: 8px;
+  padding: 12px 14px;
+  border-radius: 16px;
+
+  background-color: rgba(255, 248, 255, 0.72);
+  border: 1px solid rgba(120, 67, 170, 0.2);
+  box-shadow: 0 6px 16px rgba(78, 31, 120, 0.1);
+  backdrop-filter: blur(2px);
+}
+
+.center-header h2 {
+  margin-bottom: 3px;
+}
+
+#food-count {
+  flex-shrink: 0;
+  padding: 6px 11px;
+  border-radius: 999px;
+  font-weight: bold;
+  color: #63308f;
+  background-color: rgba(236, 221, 250, 0.95);
+  font-size: clamp(11px, 0.84vw, 13px);
+}
+
+.search-input {
+  margin-bottom: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* 가운데 목록 */
+.shelf-food-list {
+  height: calc(100% - 105px);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  display: grid;
+  align-content: start;
+  gap: 9px;
+
+  overflow-y: auto;
+}
+
+.food-card {
+  padding: 10px;
+  border-radius: 14px;
+  background-color: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(123, 69, 176, 0.2);
+  box-shadow: 0 6px 16px rgba(78, 31, 120, 0.1);
+  backdrop-filter: blur(2px);
+}
+
+.food-card.warning-card {
+  background-color: rgba(255, 246, 218, 0.88);
+  border-color: rgba(216, 154, 38, 0.45);
+}
+
+.food-card.expired-card {
+  background-color: rgba(255, 232, 232, 0.9);
+  border-color: rgba(210, 69, 69, 0.45);
+}
+
+.food-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.food-name {
+  margin: 0;
+  font-size: clamp(15px, 1.05vw, 18px);
+  color: #332040;
+}
+
+.food-category {
+  display: inline-block;
+  margin-top: 5px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background-color: #eadbfa;
+  color: #63308f;
+  font-size: clamp(10px, 0.72vw, 12px);
+  font-weight: bold;
+}
+
+.dday {
+  flex-shrink: 0;
+  padding: 5px 8px;
+  border-radius: 999px;
+  font-size: clamp(10px, 0.72vw, 12px);
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.safe {
+  background-color: #dcf5e5;
+  color: #247a43;
+}
+
+.warning {
+  background-color: #fff0c7;
+  color: #a96700;
+}
+
+.expired {
+  background-color: #ffe0e0;
+  color: #c0392b;
+}
+
+.food-info {
+  margin: 8px 0;
+  line-height: 1.5;
+  color: #584466;
+  font-size: clamp(10px, 0.76vw, 12px);
+}
+
+.food-actions {
+  display: flex;
+  gap: 7px;
+}
+
+.edit-button,
+.delete-button {
+  padding: 6px 9px;
+  font-size: clamp(10px, 0.74vw, 12px);
+}
+
+.edit-button {
+  background-color: #eadbfa;
+  color: #63308f;
+}
+
+.delete-button {
+  background-color: #ffe0e0;
+  color: #c0392b;
+}
+
+/* 오른쪽 임박 리스트 */
+.warning-desc {
+  margin-bottom: 10px !important;
+}
+
+.warning-list {
+  height: calc(100% - 62px);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  display: grid;
+  align-content: start;
+  gap: 9px;
+
+  overflow-y: auto;
+}
+
+.warning-item {
+  padding: 10px;
+  border-radius: 14px;
+  background-color: rgba(255, 255, 255, 0.76);
+  border: 1px solid rgba(123, 69, 176, 0.2);
+}
+
+.warning-item.expired-item {
+  background-color: rgba(255, 232, 232, 0.9);
+}
+
+.warning-item.warning-item-soon {
+  background-color: rgba(255, 246, 218, 0.9);
+}
+
+.warning-name {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
+
+  font-weight: bold;
+  color: #332040;
+  font-size: clamp(12px, 0.9vw, 14px);
+}
+
+.warning-info {
+  margin-top: 7px;
+  font-size: clamp(10px, 0.74vw, 12px);
+  line-height: 1.45;
+  color: #584466;
+}
+
+.empty-message {
+  padding: 20px 10px;
+  border-radius: 14px;
+  text-align: center;
+  color: #715a80;
+  background-color: rgba(255, 255, 255, 0.58);
+  border: 1px dashed rgba(123, 69, 176, 0.35);
+  font-size: clamp(11px, 0.8vw, 13px);
+}
+
+/* 스크롤바 */
+.left-door-panel::-webkit-scrollbar,
+.right-door-panel::-webkit-scrollbar,
+.shelf-food-list::-webkit-scrollbar,
+.warning-list::-webkit-scrollbar {
+  width: 7px;
+}
+
+.left-door-panel::-webkit-scrollbar-thumb,
+.right-door-panel::-webkit-scrollbar-thumb,
+.shelf-food-list::-webkit-scrollbar-thumb,
+.warning-list::-webkit-scrollbar-thumb {
+  background-color: rgba(123, 69, 176, 0.35);
+  border-radius: 999px;
+}
+
+/* 작은 화면 */
+@media (max-width: 760px) {
+  body {
+    overflow-y: auto;
+  }
+
+  .fridge-page {
+    height: auto;
+    min-height: 100vh;
+    padding: 70px 10px 20px;
+    display: block;
+  }
+
+  .fridge-stage {
+    width: 100%;
+    aspect-ratio: auto;
+    background-image: none;
+    display: grid;
+    gap: 18px;
+  }
+
+  .panel {
+    position: static;
+    width: 100%;
+    height: auto;
+    background-color: rgba(255, 248, 255, 0.74);
+    border: 2px solid rgba(120, 67, 170, 0.22);
+    box-shadow: 0 8px 22px rgba(78, 31, 120, 0.12);
+    backdrop-filter: blur(2px);
+  }
+
+  .center-shelf-panel {
+    padding: 12px;
+  }
+
+  .shelf-food-list,
+  .warning-list {
+    height: auto;
+    max-height: 420px;
+  }
+}
