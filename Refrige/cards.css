@@ -1,0 +1,529 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  background: radial-gradient(circle at top, #f8efff, #24142e 78%);
+  color: #2d2435;
+  font-family: "Noto Sans KR", Arial, sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+.cards-page {
+  min-height: 100vh;
+  padding: 70px 18px 28px;
+
+  background-image:
+    linear-gradient(rgba(31, 16, 42, 0.42), rgba(31, 16, 42, 0.68)),
+    url("./images/cabin.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.back-link {
+  position: fixed;
+  top: 16px;
+  left: 20px;
+  z-index: 20;
+
+  padding: 10px 16px;
+  border-radius: 999px;
+
+  color: #fff7df;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 15px;
+
+  background-color: rgba(60, 36, 76, 0.9);
+  border: 1px solid rgba(255, 218, 130, 0.55);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.24);
+}
+
+.cards-book {
+  width: min(1120px, 94vw);
+  margin: 0 auto;
+  padding: 22px;
+
+  background: rgba(255, 238, 198, 0.9);
+  border: 3px solid rgba(112, 64, 143, 0.42);
+  border-radius: 26px;
+
+  box-shadow:
+    0 18px 38px rgba(34, 18, 44, 0.42),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.28);
+
+  backdrop-filter: blur(3px);
+}
+
+.cards-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: center;
+
+  padding-bottom: 16px;
+  margin-bottom: 18px;
+
+  border-bottom: 2px dashed rgba(105, 63, 108, 0.36);
+}
+
+.cards-header h1 {
+  margin: 0;
+  color: #3d2548;
+  font-size: clamp(24px, 3vw, 40px);
+}
+
+.cards-header p {
+  margin: 6px 0 0;
+  color: #6b4c6f;
+  font-weight: 750;
+}
+
+.cards-header-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+#cardTotalCount {
+  padding: 8px 14px;
+  border-radius: 999px;
+
+  color: #fff4ce;
+  background: rgba(100, 59, 139, 0.88);
+
+  font-weight: 900;
+}
+
+.cards-header-actions button {
+  padding: 9px 13px;
+  border: none;
+  border-radius: 12px;
+
+  color: #5c3471;
+  background: rgba(255, 245, 215, 0.9);
+
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.card-form-panel,
+.card-list-panel {
+  padding: 18px;
+  border-radius: 20px;
+
+  background: rgba(255, 248, 228, 0.82);
+  border: 2px solid rgba(112, 64, 143, 0.24);
+
+  box-shadow: 0 8px 18px rgba(67, 33, 91, 0.14);
+}
+
+.card-form-panel {
+  margin-bottom: 18px;
+}
+
+.card-form-panel h2,
+.card-list-panel h2 {
+  margin: 0 0 12px;
+  color: #4b2474;
+}
+
+.card-form {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 0.9fr 0.9fr;
+  gap: 12px;
+}
+
+.input-box {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.input-box label {
+  color: #4b2474;
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.input-box input,
+.input-box select,
+.input-box textarea,
+.search-input {
+  width: 100%;
+  padding: 10px 12px;
+
+  border: 2px solid rgba(112, 64, 143, 0.28);
+  border-radius: 12px;
+
+  color: #3d2548;
+  background: rgba(255, 255, 255, 0.94);
+
+  font-size: 14px;
+  font-weight: 700;
+  outline: none;
+}
+
+.input-box input:focus,
+.input-box select:focus,
+.input-box textarea:focus,
+.search-input:focus {
+  border-color: rgba(112, 64, 143, 0.85);
+}
+
+.image-box {
+  grid-column: 1 / 2;
+}
+
+.image-help {
+  margin: 0;
+  color: #715a80;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.input-box input[type="file"] {
+  padding: 9px;
+  background: rgba(255, 255, 255, 0.94);
+}
+
+.memo-box {
+  grid-column: 2 / 5;
+}
+
+.memo-box textarea {
+  min-height: 72px;
+  resize: vertical;
+}
+
+.button-box {
+  display: grid;
+  gap: 8px;
+  align-content: end;
+}
+
+.button-box button {
+  padding: 11px 12px;
+
+  border: none;
+  border-radius: 12px;
+
+  font-size: 14px;
+  font-weight: 900;
+
+  cursor: pointer;
+}
+
+#submitButton {
+  color: #fff4ce;
+  background: linear-gradient(135deg, #70408f, #a16ad6);
+}
+
+#cancelButton {
+  display: none;
+
+  color: #5c3471;
+  background: rgba(255, 245, 215, 0.9);
+
+  border: 2px solid rgba(112, 64, 143, 0.22);
+}
+
+.list-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+
+  margin-bottom: 14px;
+}
+
+.list-top p {
+  margin: 0;
+  color: #6b4c6f;
+  font-weight: 700;
+}
+
+.search-input {
+  max-width: 360px;
+}
+
+.card-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 14px;
+}
+
+.collection-card {
+  position: relative;
+  min-height: 178px;
+  padding: 14px;
+
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+
+  border-radius: 18px;
+
+  background:
+    linear-gradient(135deg, rgba(255, 252, 232, 0.94), rgba(238, 220, 255, 0.9));
+
+  border: 2px solid rgba(112, 64, 143, 0.26);
+  box-shadow: 0 8px 18px rgba(67, 33, 91, 0.14);
+
+  overflow: hidden;
+}
+
+.collection-card::before {
+  content: "";
+  position: absolute;
+  right: -36px;
+  bottom: -42px;
+
+  width: 120px;
+  height: 120px;
+
+  background: radial-gradient(circle, rgba(112, 64, 143, 0.18), transparent 68%);
+  pointer-events: none;
+}
+
+.collection-card h3 {
+  margin: 0 0 8px;
+
+  color: #3d2548;
+  font-size: 19px;
+}
+
+/* 기존 cards.js가 card-photo를 쓰는 경우 */
+.card-photo {
+  width: 96px !important;
+  height: 134px !important;
+  max-width: 96px !important;
+  max-height: 134px !important;
+
+  border-radius: 12px;
+  overflow: hidden;
+
+  background:
+    linear-gradient(135deg, rgba(75, 36, 116, 0.9), rgba(161, 106, 214, 0.85));
+
+  border: 2px solid rgba(112, 64, 143, 0.35);
+  box-shadow: 0 8px 14px rgba(67, 33, 91, 0.18);
+
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.card-photo img {
+  width: 100% !important;
+  height: 100% !important;
+
+  display: block !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+
+  background-color: rgba(35, 18, 48, 0.9);
+}
+
+/*card-thumb 구조도 같이 방어 */
+.card-thumb {
+  width: 96px !important;
+  height: 134px !important;
+  max-width: 96px !important;
+  max-height: 134px !important;
+
+  border-radius: 12px;
+  overflow: hidden;
+
+  background:
+    linear-gradient(135deg, rgba(75, 36, 116, 0.9), rgba(161, 106, 214, 0.85));
+
+  border: 2px solid rgba(112, 64, 143, 0.35);
+  box-shadow: 0 8px 14px rgba(67, 33, 91, 0.18);
+
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.card-thumb-img {
+  width: 100% !important;
+  height: 100% !important;
+
+  display: block !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+
+  background-color: rgba(35, 18, 48, 0.9);
+}
+
+.card-photo.empty-photo,
+.card-thumb-empty {
+  display: grid;
+  place-items: center;
+
+  color: #fff4ce;
+  font-size: 12px;
+  font-weight: 900;
+  text-align: center;
+  line-height: 1.25;
+}
+
+.card-content {
+  min-width: 0;
+  z-index: 1;
+}
+
+.card-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+
+  margin-bottom: 10px;
+}
+
+.card-chip {
+  padding: 4px 8px;
+  border-radius: 999px;
+
+  color: #63308f;
+  background: rgba(234, 219, 250, 0.92);
+
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.card-info {
+  margin: 0 0 10px;
+
+  color: #584466;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.card-actions button {
+  padding: 7px 10px;
+  border: none;
+  border-radius: 10px;
+
+  font-size: 12px;
+  font-weight: 850;
+
+  cursor: pointer;
+}
+
+.edit-button {
+  color: #63308f;
+  background: #eadbfa;
+}
+
+.delete-button {
+  color: #c0392b;
+  background: #ffe0e0;
+}
+
+.empty-message {
+  grid-column: 1 / -1;
+
+  padding: 28px 16px;
+
+  color: #715a80;
+  background: rgba(255, 255, 255, 0.58);
+
+  border: 2px dashed rgba(123, 69, 176, 0.35);
+  border-radius: 18px;
+
+  text-align: center;
+  font-weight: 850;
+}
+
+/* img가 div 없이 바로 들어간 경우까지 강제 방어 */
+.collection-card > img {
+  width: 96px !important;
+  height: 134px !important;
+  max-width: 96px !important;
+  max-height: 134px !important;
+
+  object-fit: contain !important;
+  object-position: center center !important;
+
+  background-color: rgba(35, 18, 48, 0.9);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+@media (max-width: 800px) {
+  .cards-page {
+    padding: 70px 10px 20px;
+  }
+
+  .cards-book {
+    padding: 14px;
+  }
+
+  .cards-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cards-header-actions {
+    justify-content: space-between;
+  }
+
+  .card-form {
+    grid-template-columns: 1fr;
+  }
+
+  .image-box,
+  .memo-box {
+    grid-column: auto;
+  }
+
+  .list-top {
+    flex-direction: column;
+  }
+
+  .search-input {
+    max-width: none;
+  }
+
+  .card-list {
+    grid-template-columns: 1fr;
+  }
+
+  .collection-card {
+    grid-template-columns: 78px minmax(0, 1fr);
+    padding: 12px;
+  }
+
+  .card-photo,
+  .card-thumb,
+  .collection-card > img {
+    width: 78px !important;
+    height: 109px !important;
+    max-width: 78px !important;
+    max-height: 109px !important;
+  }
+}

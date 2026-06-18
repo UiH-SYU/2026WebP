@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>마녀의 카드 도감</title>
+
+  <link rel="stylesheet" href="./cards.css" />
+</head>
+<body>
+  <main class="cards-page">
+    <a href="./index.html" class="back-link">← 오두막으로</a>
+
+    <section class="cards-book">
+      <header class="cards-header">
+        <div>
+          <h1>마녀의 카드 도감</h1>
+          <p id="userInfo">로그인 확인 중...</p>
+        </div>
+
+        <div class="cards-header-actions">
+          <span id="cardTotalCount">0장</span>
+          <button id="logoutButton" type="button">로그아웃</button>
+        </div>
+      </header>
+
+      <section class="card-form-panel">
+        <h2>수집 카드 작성</h2>
+
+        <form id="cardForm" class="card-form">
+          <div class="input-box">
+            <label for="cardNameInput">카드 이름</label>
+            <input
+              id="cardNameInput"
+              type="text"
+              placeholder="예: 푸른 눈의 백룡"
+              required
+            />
+          </div>
+
+          <div class="input-box">
+            <label for="cardSeriesInput">시리즈</label>
+            <input
+              id="cardSeriesInput"
+              type="text"
+              placeholder="예: 걸밴크 V2, 유희왕, 포켓몬 시즌2 등"
+              required
+            />
+          </div>
+
+          <div class="input-box">
+            <label for="rarityInput">등급</label>
+            <select id="rarityInput">
+              <option value="Normal">Normal</option>
+              <option value="Rare">Rare</option>
+              <option value="Super Rare">Super Rare</option>
+              <option value="Ultra Rare">Ultra Rare</option>
+              <option value="Secret Rare">Secret Rare</option>
+              <option value="기타">기타</option>
+            </select>
+          </div>
+
+          <div class="input-box">
+            <label for="obtainedAtInput">수집일</label>
+            <input id="obtainedAtInput" type="date" />
+          </div>
+
+          <div class="input-box image-box">
+            <label for="cardImageInput">카드 사진</label>
+            <input
+              id="cardImageInput"
+              type="file"
+              accept="image/*"
+            />
+            <p class="image-help">휴대폰에서는 카메라/사진첩 선택 가능</p>
+          </div>
+
+          <div class="input-box memo-box">
+            <label for="memoInput">메모</label>
+            <textarea
+              id="memoInput"
+              placeholder="예: 중고샵에서 구매 / 친구에게 교환받음"
+            ></textarea>
+          </div>
+
+          <div class="button-box">
+            <button id="submitButton" type="submit">카드 추가</button>
+            <button id="cancelButton" type="button">수정 취소</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="card-list-panel">
+        <div class="list-top">
+          <div>
+            <h2>수집 목록</h2>
+            <p>내가 모은 카드를 기록해둘 수 있어.</p>
+          </div>
+
+          <input
+            id="searchInput"
+            class="search-input"
+            type="text"
+            placeholder="카드 이름 / 시리즈 / 메모 검색"
+          />
+        </div>
+
+        <ul id="cardList" class="card-list"></ul>
+      </section>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./supabaseClient.js"></script>
+  <script src="./cards.js"></script>
+</body>
+</html>

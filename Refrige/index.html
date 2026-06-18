@@ -6,41 +6,124 @@
 
   <title>Little Witch's Cabin</title>
 
-  <link rel="stylesheet" href="index.css" />
+  <link rel="stylesheet" href="./index.css" />
 </head>
 <body>
-  <div class="main-container">
+  <main class="cabin-scene">
 
-    <!-- 상단 제목 박스 -->
-    <div class="title-box">
-      <h1>Little Witch's Cabin</h1>
-      <p>마법 오브젝트를 클릭해서 생활 관리 기능을 사용하세요.</p>
-    </div>
-
-    <!-- 냉장고 -->
-    <a href="fridge.html" class="fridge-area">
-      <img src="images/fridge.png" alt="냉장고" class="fridge-img" />
-      <div class="object-label">냉장고</div>
-    </a>
-
-    <!-- 마녀 -->
-    <div class="witch-area">
-      <div class="speech-bubble" id="speechBubble">
-        안녕! 나는 이 오두막을 지키는 작은 마녀야.
-      </div>
-
-      <button type="button" class="witch-button" id="witchButton">
-        <img src="images/witch.png" alt="작은 마녀" class="witch-img" />
-      </button>
-    </div>
-
-    <!-- 카드 -->
-    <button type="button" class="card-area">
-      카드
+    <button class="fridge-button" id="fridgeButton" aria-label="냉장고 열기">
+      <img class="fridge-sizer" src="./images/fridge.png" alt="" />
+      <div class="fridge-inner-glow"></div>
+      <div class="fridge-door fridge-door-left"></div>
+      <div class="fridge-door fridge-door-right"></div>
     </button>
 
-  </div>
+    <!-- 테이블 위 카드 -->
+    <button class="card-table-button" id="cardTableButton" aria-label="카드 수집 목록 열기">
+      <img src="./images/cards.png" alt="Card collection" />
+    </button>
 
-  <script src="index.js"></script>
+    <button class="witch-button" id="witchButton" aria-label="마녀와 대화하기">
+      <img id="witchImage" src="./images/witch.png" alt="Little witch" />
+    </button>
+
+    <div class="speech-bubble" id="speechBubble">
+      안녕! 나는 정리의 마법사야.
+    </div>
+
+    <section class="notice-board" id="noticeBoard">
+      <div class="board-title">
+        <span>Little Witch's Note</span>
+        <span class="login-status" id="loginStatus">Guest</span>
+      </div>
+
+      <form class="login-box" id="loginBox">
+        <p class="board-main-text">
+          로그인하면 나만의 냉장고와 카드 도감을 관리할 수 있어.
+        </p>
+
+        <input
+          id="emailInput"
+          class="login-input"
+          type="email"
+          placeholder="이메일"
+          autocomplete="email"
+        />
+
+        <input
+          id="passwordInput"
+          class="login-input"
+          type="password"
+          placeholder="비밀번호"
+          autocomplete="current-password"
+        />
+
+        <input
+          id="nicknameInput"
+          class="login-input"
+          type="text"
+          placeholder="닉네임, 회원가입할 때만 사용"
+          autocomplete="nickname"
+        />
+
+        <button class="board-button primary" id="loginButton" type="button">
+          로그인
+        </button>
+
+        <button class="board-button ghost" id="signupButton" type="button">
+          회원가입
+        </button>
+
+        <p class="board-small-text" id="authMessage">
+          처음이면 이메일, 비밀번호, 닉네임을 적고 회원가입을 눌러줘.
+        </p>
+      </form>
+
+      <div class="profile-box" id="profileBox" hidden>
+        <p class="board-main-text">
+          <strong id="profileName">마법사</strong>님의 보관함
+        </p>
+
+        <div class="storage-summary">
+          <div>
+            <span class="summary-number" id="itemCount">0</span>
+            <span class="summary-label">등록 물건</span>
+          </div>
+
+          <div>
+            <span class="summary-number" id="expiryCount">0</span>
+            <span class="summary-label">임박 항목</span>
+          </div>
+
+          <div>
+            <span class="summary-number" id="cardCount">0</span>
+            <span class="summary-label">수집 카드</span>
+          </div>
+        </div>
+
+        <button class="board-button primary" id="openFridgeFromBoard" type="button">
+          내 냉장고 열기
+        </button>
+
+        <button class="board-button primary card-board-button" id="openCardsFromBoard" type="button">
+          카드 도감 열기
+        </button>
+
+        <button class="board-button ghost" id="logoutButton" type="button">
+          로그아웃
+        </button>
+      </div>
+    </section>
+
+    <div class="fridge-transition" id="fridgeTransition">
+      <div class="magic-circle"></div>
+      <p>냉장고를 여는 중...</p>
+    </div>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./supabaseClient.js"></script>
+  <script src="./index.js"></script>
 </body>
 </html>

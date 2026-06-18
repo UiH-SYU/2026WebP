@@ -1,11 +1,10 @@
-// 1. Supabase 연결 정보
-const SUPABASE_URL = "https://cusuqrawykjcxziupovi.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN1c3VxcmF3eWtqY3h6aXVwb3ZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxOTUyMzcsImV4cCI6MjA5Mjc3MTIzN30.UYST5NTS1mR3HDnYU8qNnvTvWgJt72guuKuUxpbpHzk";
+const client = window.supabaseClient;
 
-// 2. Supabase 클라이언트 생성
-const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+if (!client) {
+  alert("Supabase 연결이 없습니다. supabaseClient.js와 script 순서를 확인해주세요.");
+  throw new Error("window.supabaseClient is missing.");
+}
 
-// 3. HTML 요소 가져오기
 const foodForm = document.querySelector("#food-form");
 const foodNameInput = document.querySelector("#food-name");
 const foodCategoryInput = document.querySelector("#food-category");
@@ -20,11 +19,10 @@ const submitButton = document.querySelector("#submit-button");
 const cancelButton = document.querySelector("#cancel-button");
 const searchInput = document.querySelector("#search-input");
 
-// 4. 전체 음식 데이터와 수정 중인 id
 let allFoods = [];
 let editingFoodId = null;
+let currentUser = null;
 
-// 5. HTML 출력 안전 처리
 function escapeHTML(value) {
   if (value === null || value === undefined) {
     return "";
@@ -38,22 +36,38 @@ function escapeHTML(value) {
     .replaceAll("'", "&#039;");
 }
 
-// 6. YYYY-MM-DD를 로컬 날짜로 변환
 function parseDateOnly(dateText) {
-  const parts = dateText.split("-");
+  if (!dateText) {
+    return null;
+  }
+
+  const parts = String(dateText).split("-");
+
+  if (parts.length !== 3) {
+    return null;
+  }
+
   const year = Number(parts[0]);
   const month = Number(parts[1]);
   const day = Number(parts[2]);
 
+  if (!year || !month || !day) {
+    return null;
+  }
+
   return new Date(year, month - 1, day);
 }
 
-// 7. D-day 계산
 function getDday(expireDate) {
+  const targetDate = parseDateOnly(expireDate);
+
+  if (!targetDate) {
+    return 9999;
+  }
+
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  const targetDate = parseDateOnly(expireDate);
   targetDate.setHours(0, 0, 0, 0);
 
   const diff = targetDate - today;
@@ -62,7 +76,6 @@ function getDday(expireDate) {
   return dday;
 }
 
-// 8. D-day 상태 결정
 function getDdayInfo(dday) {
   if (dday < 0) {
     return {
@@ -103,34 +116,12 @@ function getDdayInfo(dday) {
   };
 }
 
-// 9. 등록일 보기 좋게 변환
-function formatDateTime(dateTime) {
-  if (!dateTime) {
-    return "정보 없음";
-  }
-
-  const date = new Date(dateTime);
-
-  if (Number.isNaN(date.getTime())) {
-    return dateTime;
-  }
-
-  return date.toLocaleString("ko-KR", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-}
-
-// 10. 검색 적용
 function getFilteredFoods() {
   const keyword = searchInput.value.trim().toLowerCase();
 
-  const filteredFoods = allFoods.filter(function (food) {
-    const name = food.name.toLowerCase();
-    const category = food.category.toLowerCase();
+  return allFoods.filter(function (food) {
+    const name = food.name ? food.name.toLowerCase() : "";
+    const category = food.category ? food.category.toLowerCase() : "";
     const memo = food.memo ? food.memo.toLowerCase() : "";
 
     return (
@@ -139,11 +130,8 @@ function getFilteredFoods() {
       memo.includes(keyword)
     );
   });
-
-  return filteredFoods;
 }
 
-// 11. 가운데 선반 음식 리스트 출력
 function renderFoods(foods) {
   foodList.innerHTML = "";
 
@@ -179,16 +167,16 @@ function renderFoods(foods) {
           </div>
 
           <div class="food-info">
-            <div>수량: ${food.quantity}개</div>
+            <div>수량: ${escapeHTML(food.quantity)}개</div>
             <div>유통기한: ${escapeHTML(food.expire_date)}</div>
             <div>메모: ${food.memo ? escapeHTML(food.memo) : "없음"}</div>
           </div>
 
           <div class="food-actions">
-            <button class="edit-button" onclick="startEditFood(${food.id})">
+            <button class="edit-button" onclick="startEditFood(${JSON.stringify(food.id)})">
               수정
             </button>
-            <button class="delete-button" onclick="deleteFood(${food.id})">
+            <button class="delete-button" onclick="deleteFood(${JSON.stringify(food.id)})">
               삭제
             </button>
           </div>
@@ -200,7 +188,6 @@ function renderFoods(foods) {
   foodList.innerHTML = foodItems;
 }
 
-// 12. 오른쪽 문 유통기한 임박 음식 출력
 function renderWarningFoods() {
   warningList.innerHTML = "";
 
@@ -232,7 +219,7 @@ function renderWarningFoods() {
 
           <div class="warning-info">
             <div>카테고리: ${escapeHTML(food.category)}</div>
-            <div>수량: ${food.quantity}개</div>
+            <div>수량: ${escapeHTML(food.quantity)}개</div>
             <div>기한: ${escapeHTML(food.expire_date)}</div>
           </div>
         </li>
@@ -243,33 +230,75 @@ function renderWarningFoods() {
   warningList.innerHTML = warningItems;
 }
 
-// 13. 전체 다시 출력
 function renderAll() {
   const filteredFoods = getFilteredFoods();
   renderFoods(filteredFoods);
   renderWarningFoods();
 }
 
-// 14. Supabase에서 음식 목록 불러오기
-async function loadFoods() {
-  const { data, error } = await client
-    .from("foods")
-    .select("id, name, category, quantity, expire_date, memo, created_at")
-    .order("expire_date", { ascending: true });
+function makeErrorText(error) {
+  if (!error) {
+    return "알 수 없는 오류";
+  }
+
+  return [
+    error.message ? `message: ${error.message}` : "",
+    error.details ? `details: ${error.details}` : "",
+    error.hint ? `hint: ${error.hint}` : "",
+    error.code ? `code: ${error.code}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
+
+async function checkLogin() {
+  const { data, error } = await client.auth.getSession();
 
   if (error) {
-    console.error(error);
-    alert("음식 목록을 불러오지 못했습니다.");
+    console.error("로그인 상태 확인 실패:", error);
+    alert("로그인 상태 확인 중 오류가 발생했습니다.\n\n" + makeErrorText(error));
+    window.location.href = "./index.html";
+    return false;
+  }
+
+  if (!data.session) {
+    alert("로그인이 필요합니다.");
+    window.location.href = "./index.html";
+    return false;
+  }
+
+  currentUser = data.session.user;
+  return true;
+}
+
+async function loadFoods() {
+  if (!currentUser) {
     return;
   }
 
-  allFoods = data;
+  const { data, error } = await client
+    .from("foods")
+    .select("id, user_id, name, category, quantity, expire_date, memo, created_at")
+    .order("expire_date", { ascending: true });
+
+  if (error) {
+    console.error("음식 목록 불러오기 실패:", error);
+    alert("음식 목록을 불러오지 못했습니다.\n\n" + makeErrorText(error));
+    return;
+  }
+
+  allFoods = data || [];
   renderAll();
 }
 
-// 15. 음식 추가 또는 수정
 async function saveFood(event) {
   event.preventDefault();
+
+  if (!currentUser) {
+    alert("로그인이 필요합니다.");
+    window.location.href = "./index.html";
+    return;
+  }
 
   const name = foodNameInput.value.trim();
   const category = foodCategoryInput.value;
@@ -298,6 +327,7 @@ async function saveFood(event) {
   }
 
   const foodData = {
+    user_id: currentUser.id,
     name: name,
     category: category,
     quantity: quantity,
@@ -305,7 +335,6 @@ async function saveFood(event) {
     memo: memo,
   };
 
-  // 수정 모드
   if (editingFoodId !== null) {
     const { error } = await client
       .from("foods")
@@ -313,8 +342,8 @@ async function saveFood(event) {
       .eq("id", editingFoodId);
 
     if (error) {
-      console.error(error);
-      alert("음식 수정에 실패했습니다.");
+      console.error("음식 수정 실패:", error);
+      alert("음식 수정에 실패했습니다.\n\n" + makeErrorText(error));
       return;
     }
 
@@ -323,12 +352,11 @@ async function saveFood(event) {
     return;
   }
 
-  // 추가 모드
   const { error } = await client.from("foods").insert(foodData);
 
   if (error) {
-    console.error(error);
-    alert("음식 추가에 실패했습니다.");
+    console.error("음식 추가 실패:", error);
+    alert("음식 추가에 실패했습니다.\n\n" + makeErrorText(error));
     return;
   }
 
@@ -336,29 +364,36 @@ async function saveFood(event) {
   await loadFoods();
 }
 
-// 16. 음식 삭제
 async function deleteFood(id) {
+  if (!currentUser) {
+    alert("로그인이 필요합니다.");
+    window.location.href = "./index.html";
+    return;
+  }
+
   const isDelete = confirm("정말 삭제할까요?");
 
   if (!isDelete) {
     return;
   }
 
-  const { error } = await client.from("foods").delete().eq("id", id);
+  const { error } = await client
+    .from("foods")
+    .delete()
+    .eq("id", id);
 
   if (error) {
-    console.error(error);
-    alert("음식 삭제에 실패했습니다.");
+    console.error("음식 삭제 실패:", error);
+    alert("음식 삭제에 실패했습니다.\n\n" + makeErrorText(error));
     return;
   }
 
   await loadFoods();
 }
 
-// 17. 수정 시작
 function startEditFood(id) {
   const food = allFoods.find(function (food) {
-    return food.id === id;
+    return String(food.id) === String(id);
   });
 
   if (!food) {
@@ -378,7 +413,6 @@ function startEditFood(id) {
   cancelButton.style.display = "block";
 }
 
-// 18. 폼 초기화
 function resetForm() {
   foodForm.reset();
   foodQuantityInput.value = 1;
@@ -388,7 +422,12 @@ function resetForm() {
   cancelButton.style.display = "none";
 }
 
-// 19. 이벤트 연결
+client.auth.onAuthStateChange(function (event, session) {
+  if (!session) {
+    currentUser = null;
+  }
+});
+
 foodForm.addEventListener("submit", saveFood);
 
 cancelButton.addEventListener("click", function () {
@@ -399,9 +438,17 @@ searchInput.addEventListener("input", function () {
   renderAll();
 });
 
-// 20. onclick 함수 등록
 window.startEditFood = startEditFood;
 window.deleteFood = deleteFood;
 
-// 21. 페이지 열리면 음식 목록 불러오기
-loadFoods();
+async function initFridgePage() {
+  const isLoggedIn = await checkLogin();
+
+  if (!isLoggedIn) {
+    return;
+  }
+
+  await loadFoods();
+}
+
+initFridgePage();

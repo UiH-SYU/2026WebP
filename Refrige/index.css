@@ -1,321 +1,672 @@
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
 
-body {
-  overflow: hidden;
-  font-family: "Pretendard", "Noto Sans KR", Arial, sans-serif;
+[hidden] {
+  display: none !important;
 }
 
-/* 전체 메인 화면 */
-.main-container {
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  background: #211525;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+button,
+input {
+  font-family: inherit;
+}
+
+.cabin-scene {
   position: relative;
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
 
-  background-image: url("images/cabin.png");
+  background-image: url("./images/cabin.png");
   background-size: cover;
-  background-position: center;
+  background-position: center center;
   background-repeat: no-repeat;
 }
 
-/* 상단 제목 박스 */
-.title-box {
+/* ========================= */
+/* 왼쪽 냉장고 */
+
+.fridge-button {
   position: absolute;
-  top: 3%;
-  left: 50%;
-  transform: translateX(-50%);
 
-  width: 520px;
-  padding: 24px 32px;
+  /* 왼쪽 빈 공간에 맞춘 위치 */
+  left: 18.2%;
+  bottom: 12.8%;
+  width: clamp(180px, 16vw, 310px);
 
-  text-align: center;
-
-  background: rgba(45, 25, 55, 0.88);
-  border: 2px solid rgba(218, 174, 101, 0.8);
-  border-radius: 24px;
-
-  box-shadow: 0 0 20px rgba(255, 222, 150, 0.25);
-
-  z-index: 30;
-}
-
-.title-box h1 {
-  color: #fff4d2;
-  font-size: 42px;
-  letter-spacing: 1px;
-  margin-bottom: 10px;
-}
-
-.title-box p {
-  color: #ead6b6;
-  font-size: 15px;
-}
-
-/* 냉장고 영역 */
-.fridge-area {
-  position: absolute;
-  left: 12%;
-  bottom: 8%;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  text-decoration: none;
+  padding: 0;
+  border: none;
+  background: transparent;
   cursor: pointer;
 
-  z-index: 10;
+  z-index: 5;
+
+  perspective: 900px;
+  transform-style: preserve-3d;
+  transform-origin: center bottom;
+
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease;
 }
 
-.fridge-img {
-  width: 330px;
-  height: auto;
+.fridge-button:hover {
+  transform: translateY(-5px) scale(1.04);
+  filter: drop-shadow(0 0 14px rgba(255, 220, 130, 0.75));
+}
+
+.fridge-button:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.fridge-sizer {
   display: block;
+  width: 100%;
+  height: auto;
 
-  transition: transform 0.25s ease, filter 0.25s ease;
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
 }
 
-.fridge-area:hover .fridge-img {
-  transform: translateY(-8px) scale(1.03);
-  filter: drop-shadow(0 0 18px rgba(255, 230, 160, 0.7));
-}
-
-/* 냉장고 / 카드 버튼 라벨 */
-.object-label,
-.card-area {
-  padding: 10px 22px;
-
-  color: white;
-  font-size: 18px;
-  font-weight: 700;
-
-  background: rgba(55, 32, 80, 0.78);
-  border: 2px solid rgba(255, 228, 160, 0.9);
-  border-radius: 999px;
-
-  box-shadow: 0 4px 10px rgba(25, 10, 35, 0.25);
-}
-
-.object-label {
-  margin-top: -4px;
-}
-
-/* 카드 */
-.card-area {
+/* 냉장고 안쪽 빛 */
+.fridge-inner-glow {
   position: absolute;
-  right: 15%;
-  bottom: 12%;
+  inset: 7% 8% 8% 8%;
 
-  cursor: pointer;
-  z-index: 10;
+  border-radius: 18px;
 
-  transition: transform 0.2s ease, background 0.2s ease;
+  background:
+    radial-gradient(circle, rgba(255, 241, 170, 0.98) 0%, rgba(178, 108, 255, 0.42) 45%, rgba(62, 25, 91, 0.12) 80%);
+
+  opacity: 0;
+  transform: scale(0.88);
+  filter: blur(1px);
+
+  z-index: 1;
+
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
 }
 
-.card-area:hover {
-  transform: translateY(-5px);
-  background: rgba(90, 55, 125, 0.9);
+/* 공통 문짝 */
+.fridge-door {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+
+  background-image: url("./images/fridge.png");
+  background-repeat: no-repeat;
+  background-size: 200% 100%;
+
+  z-index: 3;
+
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+
+  transition:
+    transform 0.85s cubic-bezier(0.2, 0.8, 0.2, 1),
+    filter 0.85s ease;
 }
 
-/* 마녀 전체 영역 */
-.witch-area {
+/* 왼쪽 문 */
+.fridge-door-left {
+  left: 0;
+
+  background-position: left center;
+
+  transform-origin: left center;
+  border-radius: 20px 0 0 20px;
+}
+
+/* 오른쪽 문 */
+.fridge-door-right {
+  right: 0;
+
+  background-position: right center;
+
+  transform-origin: right center;
+  border-radius: 0 20px 20px 0;
+}
+
+/* 클릭했을 때 냉장고 전체가 살짝 커짐 */
+.fridge-button.opening {
+  pointer-events: none;
+  animation: fridgeBodyOpen 1s ease-in-out forwards;
+}
+
+/* 양쪽 문이 진짜 양문형처럼 열리게 */
+.fridge-button.opening .fridge-door-left {
+  transform: rotateY(-78deg) translateX(-6px);
+  filter: brightness(1.15) drop-shadow(-8px 0 12px rgba(255, 229, 150, 0.55));
+}
+
+.fridge-button.opening .fridge-door-right {
+  transform: rotateY(78deg) translateX(6px);
+  filter: brightness(1.15) drop-shadow(8px 0 12px rgba(255, 229, 150, 0.55));
+}
+
+.fridge-button.opening .fridge-inner-glow {
+  opacity: 1;
+  transform: scale(1.06);
+}
+
+@keyframes fridgeBodyOpen {
+  0% {
+    transform: scale(1);
+  }
+
+  35% {
+    transform: scale(1.05);
+  }
+
+  100% {
+    transform: scale(1.14);
+  }
+}
+
+/* ========================= */
+/* 마녀 */
+
+.witch-button {
   position: absolute;
 
-  /*
-    마녀 위치 조절하는 핵심 부분
-    left: 50% → 화면 정중앙
-    bottom: 5% → 아래에서 5% 위
-  */
+  /* 중앙 공중 */
   left: 50%;
-  bottom: 5%;
-  transform: translateX(-50%);
+  top: 42%;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: clamp(105px, 9vw, 175px);
 
-  z-index: 25;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  z-index: 8;
+
+  transform: translate(-50%, -50%);
+  animation: witchFloat 3s ease-in-out infinite;
+
+  filter: drop-shadow(0 12px 16px rgba(35, 18, 48, 0.5));
 }
 
+.witch-button img {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+}
+
+.witch-button:hover {
+  filter:
+    drop-shadow(0 0 12px rgba(220, 180, 255, 0.85))
+    drop-shadow(0 12px 16px rgba(35, 18, 48, 0.5));
+}
+
+@keyframes witchFloat {
+  0% {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+
+  50% {
+    transform: translate(-50%, -50%) translateY(-15px);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+}
+
+/* ========================= */
 /* 말풍선 */
+
 .speech-bubble {
-  position: relative;
+  position: absolute;
 
-  min-width: 280px;
-  max-width: 380px;
-  min-height: 58px;
+  /* 마녀 얼굴/몸을 가리지 않게 함. */
+  left: 50%;
+  top: 20%;
 
-  margin-bottom: 18px;
-  padding: 15px 20px;
+  max-width: min(440px, 78vw);
+  padding: 13px 18px;
 
-  color: #3b2445;
-  font-size: 17px;
+  color: #3d2548;
+  background: rgba(255, 241, 202, 0.97);
+
+  border: 3px solid #70408f;
+  border-radius: 20px;
+
+  font-size: clamp(14px, 1.3vw, 19px);
   font-weight: 700;
   line-height: 1.45;
   text-align: center;
 
-  background: rgba(255, 244, 215, 0.96);
-  border: 3px solid #7b4b9c;
-  border-radius: 22px;
+  box-shadow:
+    0 8px 18px rgba(35, 18, 48, 0.35),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.35);
 
-  box-shadow: 0 7px 18px rgba(30, 12, 45, 0.35);
+  z-index: 20;
 
-  opacity: 1;
-  transform: translateY(0);
+  opacity: 0;
+  pointer-events: none;
 
-  transition: opacity 0.2s ease, transform 0.2s ease;
-
-  z-index: 26;
+  transform: translateX(-50%) translateY(8px);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
 }
 
-/* 말풍선 꼬리 */
+.speech-bubble.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
 .speech-bubble::after {
   content: "";
   position: absolute;
-
   left: 50%;
-  bottom: -15px;
-  transform: translateX(-50%);
+  bottom: -13px;
 
-  width: 0;
-  height: 0;
+  width: 20px;
+  height: 20px;
 
-  border-left: 13px solid transparent;
-  border-right: 13px solid transparent;
-  border-top: 15px solid rgba(255, 244, 215, 0.96);
+  background: rgba(255, 241, 202, 0.97);
+  border-right: 3px solid #70408f;
+  border-bottom: 3px solid #70408f;
+
+  transform: translateX(-50%) rotate(45deg);
 }
 
-/* 대사 바뀔 때 잠깐 사라지는 효과 */
-.speech-bubble.hide {
-  opacity: 0;
-  transform: translateY(8px);
+/* ========================= */
+/* 오른쪽 게시판 패널 */
+
+.notice-board {
+  position: absolute;
+
+  /* 오른쪽 큰 빈 게시판 영역에 맞춤 */
+  left: 63%;
+  top: 15.5%;
+
+  width: 24.5%;
+  min-width: 310px;
+  max-width: 520px;
+
+  padding: clamp(14px, 1.2vw, 22px);
+
+  color: #4a2c42;
+  background: rgba(255, 235, 190, 0.55);
+
+  border: 2px solid rgba(122, 74, 112, 0.45);
+  border-radius: 18px;
+
+  box-shadow:
+    0 8px 18px rgba(54, 25, 48, 0.16),
+    inset 0 0 18px rgba(255, 255, 255, 0.25);
+
+  backdrop-filter: blur(1px);
+
+  z-index: 7;
 }
 
-/* 마녀 버튼 */
-.witch-button {
+.board-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+
+  border-bottom: 2px dashed rgba(104, 62, 102, 0.35);
+
+  font-size: clamp(15px, 1.15vw, 20px);
+  font-weight: 900;
+}
+
+.login-status {
+  padding: 4px 9px;
+
+  color: #fff3ca;
+  background: rgba(100, 59, 139, 0.82);
+
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.board-main-text {
+  margin: 0 0 12px;
+
+  font-size: clamp(14px, 1vw, 17px);
+  font-weight: 750;
+  line-height: 1.45;
+}
+
+.board-small-text {
+  margin: 10px 0 0;
+
+  color: rgba(74, 44, 66, 0.82);
+
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.login-input {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px 12px;
+
+  color: #3d2548;
+  background: rgba(255, 248, 220, 0.88);
+
+  border: 2px solid rgba(112, 64, 143, 0.45);
+  border-radius: 12px;
+
+  font-size: 14px;
+  font-weight: 700;
+  outline: none;
+}
+
+.login-input:focus {
+  border-color: rgba(112, 64, 143, 0.95);
+  box-shadow: 0 0 0 3px rgba(153, 94, 196, 0.2);
+}
+
+.board-button {
+  width: 100%;
+  padding: 10px 12px;
+
   border: none;
-  background: transparent;
-  padding: 0;
+  border-radius: 12px;
+
+  font-size: 14px;
+  font-weight: 850;
 
   cursor: pointer;
 
-  animation: witchFloat 2.8s ease-in-out infinite;
+  transition:
+    transform 0.15s ease,
+    filter 0.15s ease,
+    background 0.15s ease;
 }
 
-/* 마녀 이미지 */
-.witch-img {
-  width: 270px;
-  height: auto;
+.board-button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.04);
+}
+
+.board-button:active {
+  transform: translateY(0);
+}
+
+.board-button.primary {
+  color: #fff4ce;
+  background: linear-gradient(135deg, #70408f, #a16ad6);
+  box-shadow: 0 4px 10px rgba(67, 33, 91, 0.28);
+}
+
+.board-button.ghost {
+  margin-top: 8px;
+
+  color: #5c3471;
+  background: rgba(255, 245, 215, 0.7);
+
+  border: 2px solid rgba(112, 64, 143, 0.28);
+}
+
+.storage-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+
+  margin: 12px 0;
+}
+
+.storage-summary div {
+  padding: 10px;
+
+  background: rgba(255, 248, 220, 0.72);
+  border: 2px solid rgba(112, 64, 143, 0.22);
+  border-radius: 14px;
+
+  text-align: center;
+}
+
+.summary-number {
   display: block;
 
-  filter: drop-shadow(0 12px 14px rgba(20, 8, 30, 0.48));
+  color: #70408f;
 
-  transition: transform 0.2s ease, filter 0.2s ease;
+  font-size: clamp(22px, 2vw, 32px);
+  font-weight: 950;
+  line-height: 1;
 }
 
-.witch-button:hover .witch-img {
-  transform: scale(1.05);
-  filter: drop-shadow(0 0 20px rgba(255, 225, 150, 0.8));
+.summary-label {
+  display: block;
+  margin-top: 4px;
+
+  color: rgba(67, 38, 75, 0.82);
+
+  font-size: 12px;
+  font-weight: 800;
 }
 
-.witch-button:active .witch-img {
-  transform: scale(0.95);
+/* ========================= */
+/* 냉장고 이동 전 로딩 연출 */
+
+.fridge-transition {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background:
+    radial-gradient(circle, rgba(255, 234, 170, 0.22) 0%, rgba(33, 21, 37, 0.94) 48%, rgba(20, 11, 25, 1) 100%);
+
+  color: #fff0c6;
+  font-size: 20px;
+  font-weight: 800;
+
+  opacity: 0;
+  pointer-events: none;
+  z-index: 100;
+
+  transition: opacity 0.35s ease;
 }
 
-/* 마녀 둥실둥실 */
-@keyframes witchFloat {
-  0% {
-    transform: translateY(0);
+.fridge-transition.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.magic-circle {
+  width: 110px;
+  height: 110px;
+  margin-bottom: 20px;
+
+  border: 4px solid rgba(255, 230, 150, 0.85);
+  border-top-color: transparent;
+  border-radius: 50%;
+
+  box-shadow:
+    0 0 24px rgba(255, 230, 150, 0.85),
+    inset 0 0 18px rgba(180, 120, 255, 0.4);
+
+  animation: magicSpin 1s linear infinite;
+}
+
+@keyframes magicSpin {
+  to {
+    transform: rotate(360deg);
   }
-
-  50% {
-    transform: translateY(-10px);
-  }
-
-  100% {
-    transform: translateY(0);
-  }
 }
 
-/* 화면 작아졌을 때 */
+/* ========================= */
+/* 반응형 */
+
 @media (max-width: 1200px) {
-  .title-box {
-    width: 460px;
-    padding: 20px 26px;
+  .notice-board {
+    left: 61.5%;
+    top: 15%;
+    width: 29%;
+    min-width: 280px;
   }
 
-  .title-box h1 {
-    font-size: 34px;
+  .fridge-button {
+    left: 18%;
+    bottom: 15%;
+    width: clamp(115px, 14vw, 190px);
   }
 
-  .fridge-area {
-    left: 7%;
-  }
-
-  .fridge-img {
-    width: 260px;
-  }
-
-  .witch-img {
-    width: 230px;
+  .witch-button {
+    top: 43%;
+    width: clamp(95px, 11vw, 150px);
   }
 
   .speech-bubble {
-    min-width: 250px;
-    max-width: 330px;
-    font-size: 15px;
+    top: 18%;
   }
 }
 
 @media (max-width: 800px) {
-  .title-box {
-    top: 2%;
-    width: 86%;
+  .cabin-scene {
+    background-position: center center;
   }
 
-  .title-box h1 {
-    font-size: 27px;
+  .fridge-button {
+    left: 13%;
+    bottom: 13.5%;
+    width: 115px;
   }
 
-  .title-box p {
-    font-size: 13px;
-  }
-
-  .fridge-area {
-    left: 3%;
-    bottom: 7%;
-  }
-
-  .fridge-img {
-    width: 180px;
-  }
-
-  .object-label,
-  .card-area {
-    font-size: 14px;
-    padding: 8px 16px;
-  }
-
-  .witch-area {
-    bottom: 5%;
-  }
-
-  .witch-img {
-    width: 170px;
+  .witch-button {
+    left: 52%;
+    top: 43%;
+    width: 105px;
   }
 
   .speech-bubble {
-    min-width: 210px;
-    max-width: 260px;
+    top: 15%;
     font-size: 14px;
-    padding: 12px 14px;
   }
 
-  .card-area {
-    right: 5%;
-    bottom: 9%;
+  .notice-board {
+    left: 50%;
+    top: 7%;
+    width: 82%;
+    min-width: 0;
+
+    transform: translateX(-50%);
+
+    padding: 12px;
+  }
+
+  .board-small-text {
+    display: none;
+  }
+
+  .fridge-transition {
+    font-size: 16px;
+  }
+
+  .magic-circle {
+    width: 84px;
+    height: 84px;
+  }
+}
+
+/* ========================= */
+/* 테이블 위 카드 오브젝트 */
+
+.card-table-button {
+  position: absolute;
+
+  /* 테이블 위쪽에 자연스럽게 놓이도록 */
+  left: 61.5%;
+  top: 68.5%;
+  width: clamp(95px, 7.2vw, 150px);
+
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  z-index: 9;
+
+  transform: translate(-50%, -50%) rotate(-7deg);
+  transform-origin: center center;
+
+  filter: drop-shadow(0 10px 14px rgba(34, 18, 44, 0.45));
+
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease;
+}
+
+.card-table-button img {
+  display: block;
+  width: 100%;
+  height: auto;
+
+  pointer-events: none;
+  user-select: none;
+}
+
+.card-table-button:hover {
+  transform: translate(-50%, -50%) translateY(-5px) rotate(-5deg) scale(1.06);
+  filter:
+    drop-shadow(0 0 12px rgba(255, 224, 145, 0.75))
+    drop-shadow(0 10px 14px rgba(34, 18, 44, 0.45));
+}
+
+.card-table-button:active {
+  transform: translate(-50%, -50%) translateY(0) rotate(-7deg) scale(0.96);
+}
+
+.card-board-button {
+  margin-top: 8px;
+}
+
+.storage-summary {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 1200px) {
+  .card-table-button {
+    left: 76%;
+    top: 64%;
+    width: clamp(70px, 7vw, 110px);
+  }
+}
+
+@media (max-width: 800px) {
+  .card-table-button {
+    left: 76%;
+    top: 68%;
+    width: 82px;
+  }
+
+  .storage-summary {
+    grid-template-columns: 1fr;
   }
 }

@@ -69,7 +69,7 @@ body {
   overflow: hidden;
 }
 
-/* 왼쪽 문 연보라 영역 안쪽 */
+/* 왼쪽 문 안쪽 */
 .left-door-panel {
   left: 6.1%;
   top: 17.4%;
@@ -93,7 +93,7 @@ body {
   padding: 10px;
 }
 
-/* 오른쪽 문 연보라 영역 안쪽 */
+/* 오른쪽 문 안쪽 */
 .right-door-panel {
   right: 6.1%;
   top: 17.4%;
